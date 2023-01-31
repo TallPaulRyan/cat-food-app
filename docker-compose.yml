@@ -2,6 +2,7 @@ version: '3'
 
 services:
   cat-food-app:
+    container_name: cat-food-app
     tty: true
     stdin_open: true
     build:
