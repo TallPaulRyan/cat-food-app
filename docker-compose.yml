@@ -10,4 +10,4 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - .:/app
-      - bundle-cache:/usr/local/bundle
+      - cat-food-app-bundle-cache:/usr/local/bundle
