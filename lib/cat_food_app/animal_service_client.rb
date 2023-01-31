@@ -3,10 +3,10 @@ require 'cat_food_app/models/alligator'
 require 'cat_food_app/models/seahawk'
 
 module CatFoodApp
-  class CatFoodAppClient
+  class AnimalServiceClient
 
     include HTTParty
-    base_uri 'cat-food-service.com'
+    base_uri 'animal-service.com'
 
     def self.find_alligator_by_name name
       response = get("/alligators/#{name}", :headers => {'Accept' => 'application/json'})
