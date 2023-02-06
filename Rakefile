@@ -26,6 +26,6 @@ task :deploy_to_halo do
   environment = 'halo'
   participant = 'Cat Food App'
   provider_version = ENV['GIT_COMMIT'] || `git rev-parse --short --verify HEAD`.strip
-  # --broker-base-url=http://pact-broker:9292 is defined in the env var PACT_BROKER_BASE_URL
-  `pact-broker record-deployment --environment=#{environment} --pacticipant=#{participant} --version=#{provider_version}`
+  result = `pact-broker record-deployment --environment=#{environment} --pacticipant='#{participant}' --version=#{provider_version}`
+  puts result.strip
 end
