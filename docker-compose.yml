@@ -8,6 +8,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    environment:
+      PACT_BROKER_BASE_URL: "http://pact-broker:9292"
     volumes:
       - .:/app
       - cat-food-app-bundle-cache:/usr/local/bundle

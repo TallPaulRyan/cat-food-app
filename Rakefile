@@ -19,3 +19,13 @@ PactBroker::Client::PublicationTask.new do | task |
 end
 
 task :default => :spec
+
+desc 'Deploy to halo'
+task :deploy_to_halo do
+  p "Executing pact-broker record-deployment."
+  environment = 'halo'
+  participant = 'Cat Food App'
+  provider_version = ENV['GIT_COMMIT'] || `git rev-parse --short --verify HEAD`.strip
+  # --broker-base-url=http://pact-broker:9292 is defined in the env var PACT_BROKER_BASE_URL
+  `pact-broker record-deployment --environment=#{environment} --pacticipant=#{participant} --version=#{provider_version}`
+end
