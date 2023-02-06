@@ -20,12 +20,27 @@ end
 
 task :default => :spec
 
-desc 'Deploy to halo'
-task :deploy_to_halo do
-  p "Executing pact-broker record-deployment."
-  environment = 'halo'
-  participant = 'Cat Food App'
-  provider_version = ENV['GIT_COMMIT'] || `git rev-parse --short --verify HEAD`.strip
-  result = `pact-broker record-deployment --environment=#{environment} --pacticipant='#{participant}' --version=#{provider_version}`
-  puts result.strip
+namespace :env do
+  desc 'list existing envs.'
+  task :list do
+    p "Listing exsiting environments via pact-broker list-environments."
+    result = `pact-broker list-environments`
+    puts result.strip
+  end
+
+  desc 'Create environment - rake env:create[<env>].'
+  task :create, [:env] do |t, args|
+    p "Creating #{args[:env]} env via pact-broker create-environment..."
+    result = `pact-broker create-environment --name=#{args[:env]}`
+    puts result.strip
+  end
+
+  desc 'Deploy to environment.'
+  task :deploy, [:env] do |t, args|
+    p "Executing pact-broker record-deployment..."
+    participant = 'Animal Service'
+    provider_version = ENV['GIT_COMMIT'] || `git rev-parse --short --verify HEAD`.strip
+    result = `pact-broker record-deployment --environment=#{args[:env]} --pacticipant='#{participant}' --version=#{provider_version}`
+    puts result.strip
+  end
 end
