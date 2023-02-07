@@ -37,7 +37,7 @@ namespace :env do
   desc 'Deploy to environment.'
   task :deploy, [:env] do |t, args|
     p "Executing pact-broker record-deployment..."
-    participant = 'Animal Service'
+    participant = 'Cat Food App'
     provider_version = ENV['GIT_COMMIT'] || `git rev-parse --short --verify HEAD`.strip
     result = `pact-broker record-deployment --environment=#{args[:env]} --pacticipant='#{participant}' --version=#{provider_version}`
     puts result.strip
