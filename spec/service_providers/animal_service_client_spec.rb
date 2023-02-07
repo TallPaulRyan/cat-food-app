@@ -104,6 +104,25 @@ module CatFoodApp
           expect(AnimalServiceClient.find_seahawk_by_name("Geno")).to be_nil
         end
       end
+
+      context "when an error occurs retrieving the seahawk" do
+
+        before do
+          animal_service.given("an error occurs retrieving a seahawk").
+            upon_receiving("a request for a seahawk").with(
+              method: :get,
+              path: '/seahawks/Geno',
+              headers: {'Accept' => 'application/json'}).
+            will_respond_with(
+              status: 500,
+              headers: { 'Content-Type' => 'application/json;charset=utf-8'},
+              body: {error: 'Kawww!!!'})
+        end
+
+        it "raises an error" do
+          expect{ AnimalServiceClient.find_seahawk_by_name("Geno") }.to raise_error /Kawww/
+        end
+      end
     end
   end
 end
