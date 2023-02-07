@@ -1,6 +1,7 @@
 require 'httparty'
 require 'cat_food_app/models/alligator'
 require 'cat_food_app/models/seahawk'
+require 'cat_food_app/models/insect'
 
 module CatFoodApp
   class AnimalServiceClient
@@ -22,7 +23,12 @@ module CatFoodApp
       end
     end
 
-
+    def self.find_insect_by_name(name)
+      response = get("/insects/#{name}", :headers => {'Accept' => 'application/json'})
+      when_successful(response) do
+        CatFoodApp::Animals::Insect.new(parse_body(response))
+      end
+    end
 
     def self.when_successful response
       if response.success?

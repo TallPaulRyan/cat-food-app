@@ -105,5 +105,26 @@ module CatFoodApp
         end
       end
     end
+
+    describe ".find_insect_by_name" do
+      context "when an insect by the given name exists" do
+        before do
+          animal_service.given("there is an insect named Roy").
+            upon_receiving("a request for an insect").with(
+              method: :get,
+              path: '/insects/Roy',
+              headers: {'Accept' => 'application/json'} ).
+            will_respond_with(
+              status: 200,
+              headers: {'Content-Type' => 'application/json;charset=utf-8'},
+              body: {name: 'Roy'}
+            )
+        end
+
+        it "returns the insect" do
+          expect(AnimalServiceClient.find_insect_by_name("Roy")).to eq CatFoodApp::Animals::Insect.new(name: 'Roy')
+        end
+      end
+    end
   end
 end
